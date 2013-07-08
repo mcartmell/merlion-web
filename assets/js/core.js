@@ -1,15 +1,16 @@
 var Merlion = (function($) {
 	window.dispatch = _.clone(Backbone.Events);
 
-	var updateLobby = function() {
-		alert('wheee!');
+	var updateLobby = function(data) {
+		this.lobby.trigger('list', data);
 	};
 
-	var ws = new WebSocket('ws://10.0.0.13:11111/');
+	var ws = new WebSocket('ws://peanut.mikec.me:11111/');
 
 	// Message handler. Channel is first element of the array, payload is the second.
 	// These are used to trigger events
 	var handleMessage = function(message) {
+		console.log(message);
 		json = JSON.parse(message.data)
 		chan = json['merlion'][0];
 		data = json['merlion'][1];
@@ -18,20 +19,31 @@ var Merlion = (function($) {
 
 	ws.onmessage = handleMessage;
 
-	var init = function() {
-		// set up dispatch events
-		dispatch.on('list', updateLobby);
+	var initLobby = function() {
+		// set up websocket event listeners
+		dispatch.on('list', updateLobby, this);
 
-		ws.onopen = function() {
-			ws.send('list');
-		}
+		// create lobby
+		this.lobby = new Lobby();
+		this.lobbyView = new LobbyView({ model: this.lobby, el: $('#lobby') });
+
+		// update list when websocket is ready
+		ws.onopen = _.bind(function() {
+			this.lobby.updateList();
+		}, this);
+	};
+
+	var send = function(msg) {
+		console.log('>>> ' + msg);
+		ws.send(msg);
 	};
 
 	return {
 		'ws': ws,
-		'init': init
+		'initLobby': initLobby,
+		'send': send
 	}
 })(jQuery);
 $(function() {
-	Merlion.init();
+	Merlion.initLobby();
 });
