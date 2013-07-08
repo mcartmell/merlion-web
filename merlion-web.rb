@@ -9,7 +9,18 @@ class MerlionWeb < Sinatra::Base
 	set :assets_css_compressor, :sass
 	set :assets_js_compressor, :uglifier
 
+	configure do
+		set :server, 'ws://peanut.mikec.me:11111'
+	end
+
 	get '/' do
+		@server = settings.server
 		slim :lobby
+	end
+
+	get '/game/:id' do |id|
+		@server = settings.server
+		@game_id = id
+		slim :game
 	end
 end

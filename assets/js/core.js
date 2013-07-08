@@ -5,8 +5,6 @@ var Merlion = (function($) {
 		this.lobby.trigger('list', data);
 	};
 
-	var ws = new WebSocket('ws://peanut.mikec.me:11111/');
-
 	// Message handler. Channel is first element of the array, payload is the second.
 	// These are used to trigger events
 	var handleMessage = function(message) {
@@ -17,7 +15,20 @@ var Merlion = (function($) {
 		dispatch.trigger(chan, data);
 	};
 
-	ws.onmessage = handleMessage;
+	var createWebSocket = function(url) {
+		var ws = new WebSocket(url);
+		ws.onmessage = handleMessage;
+		this.ws = ws;
+	};
+
+	var getWS = function() {
+		return this.ws
+	};
+
+
+	var init = function(opts) {
+		createWebSocket(opts.wsurl);
+	};
 
 	var initLobby = function() {
 		// set up websocket event listeners
@@ -33,17 +44,20 @@ var Merlion = (function($) {
 		}, this);
 	};
 
+	var initGame = function(opts) {
+		new Game();
+	};
+
 	var send = function(msg) {
 		console.log('>>> ' + msg);
 		ws.send(msg);
 	};
 
 	return {
-		'ws': ws,
+		'init': init,
 		'initLobby': initLobby,
-		'send': send
+		'initGame': initGame,
+		'send': send,
+		'ws': getWS
 	}
 })(jQuery);
-$(function() {
-	Merlion.initLobby();
-});

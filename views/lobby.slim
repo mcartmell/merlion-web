@@ -1,6 +1,12 @@
 html
 	head
 		== javascript_tag 'app'
+		javascript:
+			$(function() {
+				Merlion.init({wsurl : '#{@server}'});
+				Merlion.initLobby();
+			});
 	body
 			h1 Lobby
 			div id="lobby"
+

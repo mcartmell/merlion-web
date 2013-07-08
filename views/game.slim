@@ -1,0 +1,15 @@
+html
+	head
+		== javascript_tag 'app'		
+		script type="text/template" id="player-template"
+			| name: <%= name %>
+		javascript:
+			$(function() {
+				Merlion.init({wsurl : '#{@server}'});
+				Merlion.initGame({id: '#{@game_id}'});
+			});
+	body
+		h1 Game
+		div id="game"
+		div class="player-bar"
+			ul id="player-list"
