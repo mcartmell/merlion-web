@@ -1,9 +1,28 @@
 var Merlion = (function($) {
-	window.dispatch = _.clone(Backbone.Events);
 
 	var updateLobby = function(data) {
 		this.lobby.trigger('list', data);
 	};
+
+	var gameJoined = function(data) {
+		this.game.trigger('join', data);
+	};
+
+	var handStarted = function(data) {
+		this.game.trigger('hand_started', data);
+	};
+
+	var handFinished = function(data) {
+		this.game.trigger('hand_finished', data);
+	};
+
+	var stateChanged = function(data) {
+		this.game.trigger('state_changed', data);
+	}
+
+	var stageChanged = function(data) {
+		this.game.trigger('stage_changed', data);
+	}
 
 	// Message handler. Channel is first element of the array, payload is the second.
 	// These are used to trigger events
@@ -13,6 +32,10 @@ var Merlion = (function($) {
 		chan = json['merlion'][0];
 		data = json['merlion'][1];
 		dispatch.trigger(chan, data);
+	};
+
+	var genericError = function(error) {
+		alert(error.message);
 	};
 
 	var createWebSocket = function(url) {
@@ -25,8 +48,13 @@ var Merlion = (function($) {
 		return this.ws
 	};
 
+	var getGame = function() {
+		return this.game
+	};
 
 	var init = function(opts) {
+		window.dispatch = _.clone(Backbone.Events);
+		dispatch.on('error', genericError, this);
 		createWebSocket(opts.wsurl);
 	};
 
@@ -45,7 +73,16 @@ var Merlion = (function($) {
 	};
 
 	var initGame = function(opts) {
-		new Game();
+		dispatch.on('join', gameJoined, this);
+		dispatch.on('hand_started', handStarted, this);
+		dispatch.on('state_changed', stateChanged, this);
+		dispatch.on('stage_changed', stageChanged, this);
+		dispatch.on('hand_finished', handFinished, this);
+
+		this.game = new Game();
+		ws.onopen = _.bind(function() {
+			this.game.joinGame(opts.game_id);
+		}, this);
 	};
 
 	var send = function(msg) {
@@ -58,6 +95,7 @@ var Merlion = (function($) {
 		'initLobby': initLobby,
 		'initGame': initGame,
 		'send': send,
-		'ws': getWS
+		'ws': getWS,
+		'game': getGame
 	}
 })(jQuery);

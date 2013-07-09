@@ -6,6 +6,14 @@ html
 				Merlion.init({wsurl : '#{@server}'});
 				Merlion.initLobby();
 			});
+		script type="text/template" id="lobby-template"
+			| <ul>
+				<% _.each(games, function(game) { %>
+					<li>
+						<a href="/game/<%= game.id %>"><%= game.id %></a> (<%= game.players %>/<%= game.max_players %>)
+					</li>
+				<% }) %>
+				</ul>
 	body
 			h1 Lobby
 			div id="lobby"

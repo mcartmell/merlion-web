@@ -2,14 +2,28 @@ html
 	head
 		== javascript_tag 'app'		
 		script type="text/template" id="player-template"
-			| name: <%= name %>
+			| <%= name %> [<%= stack %>]
+		script type="text/template" id="board-template"
+			| <%= stage %>: <%= cards %>
+		script type="text/template" id="hero-template"
+			| 
+				<div id="hero-cards">
+					<%= cards %>
+				</div>
+				<div id="action-bar">
+					<button id="fold">fold</button>
+					<button id="call">call</button>
+					<button id="raise">bet/raise</button>
+				</div>
+
 		javascript:
 			$(function() {
 				Merlion.init({wsurl : '#{@server}'});
-				Merlion.initGame({id: '#{@game_id}'});
+				Merlion.initGame({game_id: '#{@game_id}'});
 			});
 	body
 		h1 Game
-		div id="game"
+		div id="board"
+		div id="hero"
 		div class="player-bar"
 			ul id="player-list"
