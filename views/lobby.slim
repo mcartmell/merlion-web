@@ -1,6 +1,7 @@
 html
 	head
 		== javascript_tag 'app'
+		== stylesheet_tag 'app'
 		javascript:
 			$(function() {
 				Merlion.init({wsurl : '#{@server}'});
@@ -14,7 +15,7 @@ html
 					</li>
 				<% }) %>
 				</ul>
-	body
+	body.lobby
 			h1 Lobby
 			div id="lobby"
 

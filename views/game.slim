@@ -1,14 +1,20 @@
 html
 	head
 		== javascript_tag 'app'		
+		== stylesheet_tag 'app'
 		script type="text/template" id="player-template"
-			| <%= name %> [<%= stack %>]
+			| <%= name %> [<%= stack %>]: <%= last_action %> <%= put_in %>
 		script type="text/template" id="board-template"
-			| <%= stage %>: <%= cards %>
+			| 
+				<div>Board cards:</div>
 				<div class="board-cards">
 					<% _.each(cards, function(card) { %>
 					<img src="/assets/cards/<%= card %>.gif">
 					<% }) %>
+				</div>
+				<div class="board-info">
+					<span class="stage"><%= stage %></span>
+					<span class="pot">$<%= pot %></span>
 				</div>
 		script type="text/template" id="hero-template"
 			| 
@@ -18,9 +24,9 @@ html
 					<% }) %>
 				</div>
 				<div class="action-bar">
-					<button id="fold">fold</button>
-					<button id="call">call</button>
-					<button id="raise">bet/raise</button>
+					<button id="fold" class="button">fold</button>
+					<button id="call" class="button">call</button>
+					<button id="raise" class="button">bet/raise</button>
 				</div>
 
 		javascript:
@@ -28,9 +34,9 @@ html
 				Merlion.init({wsurl : '#{@server}'});
 				Merlion.initGame({game_id: '#{@game_id}'});
 			});
-	body
+	body.game
 		h1 Game
-		div id="board"
-		div id="hero"
-		div class="player-bar"
-			ul id="player-list"
+		ul
+			li id="board"
+			li id="hero"
+			div id="player-list"

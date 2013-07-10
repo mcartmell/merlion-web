@@ -9,7 +9,7 @@ class MerlionWeb < Sinatra::Base
 	register Sinatra::AssetPipeline
 	register Sinatra::ConfigFile
 
-	set :assets_precompile, %w(app.js app.css *.gif)
+	set :assets_precompile, %w(app.js app.css *.gif *.woff)
 	set :assets_css_compressor, :sass
 	set :assets_js_compressor, :uglifier
 

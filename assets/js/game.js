@@ -52,7 +52,7 @@
 
 	Player = Backbone.Model.extend({
 		toAct: function() {
-			return (this.seat == Merlion.game.currentPlayer());
+			return (this.get('seat') == Merlion.game.currentPlayer());
 		},
 		defaults: {
 			cards: ''
@@ -82,6 +82,15 @@
 			this.listenTo(this.model, 'change', this.render);
 			this.listenTo(Merlion.game.playerList, 'reset', this.render);
 			this.listenTo(this.model, 'destroy', this.remove);
+			this.listenTo(Merlion.game.board, 'change:current_player', this.toggleCurrent);
+		},
+		toggleCurrent: function() {
+			if (this.model.toAct()) {
+				this.$el.addClass('acting');
+			}
+			else {
+				this.$el.removeClass('acting');
+			}
 		},
 		render: function() {
 			this.$el.html(this.template(this.model.attrs()));
@@ -115,12 +124,16 @@
 			this.setPlayerSeat(data.hero_seat);
 		},
 		stateChanged: function(data) {
+			console.log('got state changed');
 			var cp = data.current_player;
 			var lp = data.last_player.seat;
 			// update board
 			this.board.setState(data);
 
 			// update prev player
+			this.playerList.each(function(p) {
+				p.set({'last_action':  ''})
+			});
 			this.playerList.at(lp).set(data.last_player);
 
 			// flash current player
@@ -169,7 +182,7 @@
 			//this.playerList.set(_.map(players, function(p) { return new Player(p) }));
 		},
 		currentPlayer: function() {
-			return this.board.current_player;
+			return this.board.get('current_player');
 		}
 	});
 
