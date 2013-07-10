@@ -54,6 +54,14 @@
 		toAct: function() {
 			return (this.seat == Merlion.game.currentPlayer());
 		},
+		defaults: {
+			cards: ''
+		},
+		initialize: function() {
+		},
+		updateAll: function() {
+
+		},
 		attrs: function() {
 			var attrs = _.clone(this.attributes);
 			attrs.to_act = this.toAct();
@@ -72,6 +80,8 @@
 
 			// set up listeners
 			this.listenTo(this.model, 'change', this.render);
+			this.listenTo(Merlion.game.playerList, 'reset', this.render);
+			this.listenTo(this.model, 'destroy', this.remove);
 		},
 		render: function() {
 			this.$el.html(this.template(this.model.attrs()));
@@ -85,16 +95,24 @@
 		},
 		setPlayerSeat: function(seat) {
 			var hero = this.playerList.at(seat);
-			this.heroView = new HeroView({ el: $('#hero'), model: hero });
+			if (this.heroView) {
+				this.heroView.model = hero
+			}
+			else {
+				this.heroView = new HeroView({ el: $('#hero'), model: hero });
+			}
 		},
 		gameJoined: function(data) {
 			this.board.setState(data);
-			this.addPlayers(data.players);
-			this.setPlayerSeat(data.hero_seat);
+			this.setPlayers(data.players);
+		},
+		holeCards: function(data) {
+			this.heroView.model.set(data);
 		},
 		handStarted: function(data) {
 			this.board.setState(data);
-			this.updatePlayers(data.players);
+			this.setPlayers(data.players);
+			this.setPlayerSeat(data.hero_seat);
 		},
 		stateChanged: function(data) {
 			var cp = data.current_player;
@@ -108,7 +126,6 @@
 			// flash current player
 		},
 		stageChanged: function(data) {
-			console.log(data);
 			this.board.setState(data);
 		},
 		handFinished: function(data) {
@@ -120,12 +137,12 @@
 			this.boardView = new BoardView({el: $('#board'), model: this.board});
 
 			// set up listeners
-			this.listenTo(this.playerList, 'add', this.addPlayer);
-			this.on('join', this.gameJoined);
-			this.on('hand_started', this.handStarted);
-			this.on('hand_finished', this.handFinished);
-			this.on('state_changed', this.stateChanged);
-			this.on('stage_changed', this.stageChanged);
+			dispatch.on('join', this.gameJoined, this);
+			dispatch.on('hand_started', this.handStarted, this);
+			dispatch.on('hand_finished', this.handFinished, this);
+			dispatch.on('state_changed', this.stateChanged, this);
+			dispatch.on('stage_changed', this.stageChanged, this);
+			dispatch.on('hole_cards', this.holeCards, this);
 		},
 		updatePlayers: function(players) {
 			var us = this;
@@ -140,13 +157,16 @@
 				us.playerList.add(player);
 			});
 		},
-		addPlayer: function(player) {
-			// creates a view for a player and renders it
-			var pv = new PlayerView({model: player});
-			$('#player-list').append(pv.render().el);
-		},
-		gotList: function(data) {
-			// this.set({ 'games': data });
+		setPlayers: function(players) {
+			this.playerList.each(function(p) { p.destroy() });
+			this.playerList.reset(players);
+			$('#player-list').empty();
+			this.playerList.each(function(p) {
+				var pv = new PlayerView({ model: p});
+				$('#player-list').append(pv.render().el);
+			});
+			console.log(this.playerList);
+			//this.playerList.set(_.map(players, function(p) { return new Player(p) }));
 		},
 		currentPlayer: function() {
 			return this.board.current_player;

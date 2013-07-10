@@ -5,12 +5,19 @@ html
 			| <%= name %> [<%= stack %>]
 		script type="text/template" id="board-template"
 			| <%= stage %>: <%= cards %>
+				<div class="board-cards">
+					<% _.each(cards, function(card) { %>
+					<img src="/assets/cards/<%= card %>.gif">
+					<% }) %>
+				</div>
 		script type="text/template" id="hero-template"
 			| 
-				<div id="hero-cards">
-					<%= cards %>
+				<div class="hero-cards">
+					<% _.each(cards, function(card) { %>
+					<img src="/assets/cards/<%= card %>.gif">
+					<% }) %>
 				</div>
-				<div id="action-bar">
+				<div class="action-bar">
 					<button id="fold">fold</button>
 					<button id="call">call</button>
 					<button id="raise">bet/raise</button>

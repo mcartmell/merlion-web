@@ -73,13 +73,13 @@ var Merlion = (function($) {
 	};
 
 	var initGame = function(opts) {
-		dispatch.on('join', gameJoined, this);
+		this.game = new Game();
+
 		dispatch.on('hand_started', handStarted, this);
 		dispatch.on('state_changed', stateChanged, this);
 		dispatch.on('stage_changed', stageChanged, this);
 		dispatch.on('hand_finished', handFinished, this);
 
-		this.game = new Game();
 		ws.onopen = _.bind(function() {
 			this.game.joinGame(opts.game_id);
 		}, this);
