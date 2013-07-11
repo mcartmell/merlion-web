@@ -3,7 +3,12 @@ html
 		== javascript_tag 'app'		
 		== stylesheet_tag 'app'
 		script type="text/template" id="player-template"
-			| <%= name %> [<%= stack %>]: <%= last_action %> <%= put_in %>
+			| <span class="name"><%= name %></span>
+				<span class="stack"><%= stack %></span> 
+				<% if (put_in && put_in != 0) { %>
+					<span class="put_in"><%= put_in %></span>
+				<% } %>
+				<span class="last_action"><%= last_action %></span>
 		script type="text/template" id="board-template"
 			| 
 				<div>Board cards:</div>

@@ -55,7 +55,8 @@
 			return (this.get('seat') == Merlion.game.currentPlayer());
 		},
 		defaults: {
-			cards: ''
+			cards: '',
+			folded: false
 		},
 		initialize: function() {
 		},
@@ -80,9 +81,14 @@
 
 			// set up listeners
 			this.listenTo(this.model, 'change', this.render);
-			this.listenTo(Merlion.game.playerList, 'reset', this.render);
+			this.listenTo(this.model, 'change:last_action', this.updateFolded);
+			this.listenTo(Merlion.game.playerList, 'reset', this.resetClasses);
 			this.listenTo(this.model, 'destroy', this.remove);
 			this.listenTo(Merlion.game.board, 'change:current_player', this.toggleCurrent);
+		},
+		resetClasses: function() {
+			this.$el.removeClass('folded');
+			this.render();
 		},
 		toggleCurrent: function() {
 			if (this.model.toAct()) {
@@ -95,6 +101,11 @@
 		render: function() {
 			this.$el.html(this.template(this.model.attrs()));
 			return this;
+		},
+		updateFolded: function() {
+			if (this.model.get('last_action') == 'fold') {
+				this.$el.addClass('folded');
+			}
 		}
 	});
 
@@ -124,22 +135,20 @@
 			this.setPlayerSeat(data.hero_seat);
 		},
 		stateChanged: function(data) {
-			console.log('got state changed');
 			var cp = data.current_player;
 			var lp = data.last_player.seat;
 			// update board
 			this.board.setState(data);
-
-			// update prev player
-			this.playerList.each(function(p) {
-				p.set({'last_action':  ''})
-			});
 			this.playerList.at(lp).set(data.last_player);
 
 			// flash current player
 		},
 		stageChanged: function(data) {
 			this.board.setState(data);
+			// reset players
+			this.playerList.each(function(p) {
+				p.set({'last_action':  '', put_in: 0})
+			});
 		},
 		handFinished: function(data) {
 			// flash winner
