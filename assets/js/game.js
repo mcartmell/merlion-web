@@ -1,6 +1,9 @@
 (function($) {
 
 	Board = Backbone.Model.extend({
+		defaults: {
+			'status': ''
+		},
 		setState: function(data) {
 			this.set(data);
 		}
@@ -137,7 +140,7 @@
 		stateChanged: function(data) {
 			var cp = data.current_player;
 			var lp = data.last_player.seat;
-			// update board
+		// update board
 			this.board.setState(data);
 			this.playerList.at(lp).set(data.last_player);
 
@@ -151,7 +154,23 @@
 			});
 		},
 		handFinished: function(data) {
-			// flash winner
+			var us = this;
+			var events = []
+			_.each(data.winners, function(winner) {
+				var winp = us.playerList.at(winner[0]);
+				winstr = winp.get('name') + ' wins ' + '$' + winner[1];
+				// flash winner
+				events.push([function() {
+					us.setStatusMsg({
+						message: winstr
+					})
+				}, 1000]);
+			});
+
+			events.push([function() {
+				Merlion.game.board.set({ 'status': ''})
+			}, 0]);
+			Merlion.delayEvents(events, true);
 		},
 		initialize: function() {
 			this.playerList = new PlayerList();
@@ -165,6 +184,7 @@
 			dispatch.on('state_changed', this.stateChanged, this);
 			dispatch.on('stage_changed', this.stageChanged, this);
 			dispatch.on('hole_cards', this.holeCards, this);
+			dispatch.on('status_msg', this.setStatusMsg, this);
 		},
 		updatePlayers: function(players) {
 			var us = this;
@@ -179,6 +199,9 @@
 				us.playerList.add(player);
 			});
 		},
+		setStatusMsg: function(data) {
+			Merlion.game.board.set({ 'status': data.message });
+		},
 		setPlayers: function(players) {
 			this.playerList.each(function(p) { p.destroy() });
 			this.playerList.reset(players);
@@ -187,8 +210,6 @@
 				var pv = new PlayerView({ model: p});
 				$('#player-list').append(pv.render().el);
 			});
-			console.log(this.playerList);
-			//this.playerList.set(_.map(players, function(p) { return new Player(p) }));
 		},
 		currentPlayer: function() {
 			return this.board.get('current_player');

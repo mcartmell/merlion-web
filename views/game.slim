@@ -11,7 +11,7 @@ html
 				<span class="last_action"><%= last_action %></span>
 		script type="text/template" id="board-template"
 			| 
-				<div>Board cards:</div>
+				<div class="status-msg" id="status-msg"><%= status %></div>
 				<div class="board-cards">
 					<% _.each(cards, function(card) { %>
 					<img src="/assets/cards/<%= card %>.gif">
