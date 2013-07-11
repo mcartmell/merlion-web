@@ -29,6 +29,9 @@ a {
 .game {
 	#board {
 		background-color: rgb(192, 255, 192);
+		.status-msg {
+			min-height: 3em;
+		}
 	}
 	#hero {
 		background-color: rgb(255, 217, 148);
