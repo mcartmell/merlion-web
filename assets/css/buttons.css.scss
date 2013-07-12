@@ -1,0 +1,105 @@
+body { padding: 3em; background: rgb(240,240,250); }
+a{ margin: 1em; }
+@import url(http://fonts.googleapis.com/css?family=Lato);
+@import url(http://weloveiconfonts.com/api/?family=entypo);
+
+$icons: ('save' '\1F4BE'),
+        ('delete' '\12as'),
+        ('fb' '\F30E'),
+        ('twitter' '\F309'),
+        ('bolt' '\26A1'),
+        ('danger' '\26A0'),
+        ('tick' '\2713'),
+				('stop', '\25A0'),
+				('play', '\25B6'),
+				('ff', '\23E9');
+;
+
+$red: #e74c3c;
+$blue: #3498db;
+$green: #2ecc71;
+
+[class*=button-]{
+  display: inline-block;
+  background: #BADA55;
+  color: black;
+  font:{
+    family: sans-serif;
+    weight: 800;
+    size: .8rem;
+  }
+  text:{
+    transform: uppercase;
+    decoration: none;
+  }
+  padding: 1.2em 2.3em;
+  position: relative;
+  transition: .3s;
+  
+  // &:active {
+  //  @include transform(scale(.92));
+  // }
+      
+  &:before, &:after{
+    display: inline-block;
+    font-family: entypo;
+    position: absolute;    
+  }
+	&:hover {
+		cursor: hand;
+	}
+}
+
+@mixin button($bg, $icon:none, $iconPosition: right, $rounded: false){
+  background: $bg;
+  $color: black;
+  @each $thing in $icons{
+    @if nth($thing, 1) == $icon {
+      @if $iconPosition == right {  
+        padding-right: 3.5em;
+              
+        &:after {
+          content: nth($thing, 2);
+          right: 1.5em;
+        }
+      }
+      @if $iconPosition == left {  
+         padding-left: 3.5em;
+            
+        &:before {
+          content: nth($thing, 2);
+          left: 1.5em;
+        }
+      }
+    }
+  }
+  @if lightness($bg) > 68% {
+    $color: desaturate(darken($bg, 35), 70);
+    &:hover, &:focus {
+      background: darken($bg, 5);
+      color: darken($color, 5);
+    }
+  }
+  @else {
+    $color: lighten($bg, 35);
+    &:hover, &:focus {
+      background: darken($bg, 5);
+      color: lighten($color, 5);
+    }
+  }
+
+  color: $color;
+  &:hover, &:focus {
+    box-shadow: 0 0 0 5px lighten($bg, 20);
+  }
+  @if $rounded == true {
+		border-radius: .7em;
+	}
+  border-bottom: .2em solid darken($bg, 15);
+  position: relative;
+}
+
+.button-fold { @include button($red, 'stop', left)   ;}
+.button-call { @include button($blue,'play', left) }
+.button-bet { @include button($green, 'ff', left)  ;}
+
