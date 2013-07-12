@@ -57,6 +57,9 @@
 		toAct: function() {
 			return (this.get('seat') == Merlion.game.currentPlayer());
 		},
+		isDealer: function() {
+			return (this.get('seat') == Merlion.game.board.get('dealer'));
+		},
 		defaults: {
 			cards: '',
 			folded: false
@@ -87,11 +90,20 @@
 			this.listenTo(this.model, 'change:last_action', this.updateFolded);
 			this.listenTo(Merlion.game.playerList, 'reset', this.resetClasses);
 			this.listenTo(this.model, 'destroy', this.remove);
+			this.listenTo(Merlion.game.board, 'set_dealer', this.toggleDealer);
 			this.listenTo(Merlion.game.board, 'change:current_player', this.toggleCurrent);
 		},
 		resetClasses: function() {
 			this.$el.removeClass('folded');
 			this.render();
+		},
+		toggleDealer: function() {
+			if (this.model.isDealer()) {
+				this.$el.addClass('dealer');
+			}
+			else {
+				this.$el.removeClass('dealer');
+			}
 		},
 		toggleCurrent: function() {
 			if (this.model.toAct()) {
@@ -136,6 +148,7 @@
 			this.board.setState(data);
 			this.setPlayers(data.players);
 			this.setPlayerSeat(data.hero_seat);
+			this.board.trigger('set_dealer');
 		},
 		stateChanged: function(data) {
 			var cp = data.current_player;

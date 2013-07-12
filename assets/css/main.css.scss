@@ -38,23 +38,37 @@ a {
 	}
 	
 	#player-list {
-		span {
+		.left {
+			width:  30%;
+			.stack {
+				font-size: 1.2em;
+			}
+		}
+		.is-dealer {
+			visibility: hidden;
+			color: blue;
+		}
+		.dealer .is-dealer {
+			visibility: visible;
+			color: red;
+		}
+		div.left, div.right {
 			display: inline-block;
 		}
 		span.put_in {
-			width: 10%;
+			width: 20%;
 			background-color: #ccf;
 			color: #fff;
 			text-align: center;
 		}
-		span.last_action {
+			.last-action.call {
+				background-color: orange;
+			}
+			.last-action.bet, .last-action.raise {
+				background-color: red;
+			}
+		span.last-action {
 			margin-left: 2em;
-		}
-		span.stack {
-			width: 10%;
-		}
-		span.name {
-			min-width: 30%;
 		}
 		li.folded {
 			background-color: #ccc;
