@@ -11,7 +11,7 @@ html
 			| <ul>
 				<% _.each(games, function(game) { %>
 					<li>
-						<a href="/game/<%= game.id %>"><%= game.id %></a> (<%= game.players %>/<%= game.max_players %>)
+						<a href="/game/<%= game.id %>"><%= game.name %></a> (<%= game.players %>/<%= game.max_players %>)
 					</li>
 				<% }) %>
 				</ul>

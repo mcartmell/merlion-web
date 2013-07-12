@@ -3,12 +3,16 @@ html
 		== javascript_tag 'app'		
 		== stylesheet_tag 'app'
 		script type="text/template" id="player-template"
-			| <span class="name"><%= name %></span>
-				<span class="stack"><%= stack %></span> 
+			| <div class="left">
+				<div class="name"><span class="is-dealer">*</span><%= name %></div>
+				<div class="stack"><%= stack %></div> 
+				</div>
+				<div class="right">
+				<span class="last-action <%= last_action %>"><%= last_action %></span>
 				<% if (put_in && put_in != 0) { %>
 					<span class="put_in"><%= put_in %></span>
 				<% } %>
-				<span class="last_action"><%= last_action %></span>
+				</div>
 		script type="text/template" id="board-template"
 			| 
 				<div class="status-msg" id="status-msg"><%= status %></div>
