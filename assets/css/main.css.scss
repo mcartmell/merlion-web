@@ -5,6 +5,7 @@ h1 {
 	margin-bottom: 0;
 }
 body {
+	background: rgb(240,240,250);
 	font-family: 'Lato';
 	font-size: 2em;
 }
@@ -60,6 +61,10 @@ a {
 			background-color: #ccf;
 			color: #fff;
 			text-align: center;
+		}
+		.last-action {
+				border-radius: 12px;
+				padding: 6px;
 		}
 			.last-action.call {
 				background-color: orange;
