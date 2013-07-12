@@ -27,11 +27,8 @@ var Merlion = (function($) {
 	// specify UI delays for certain types of event
 	var chanDelays = {
 		state_changed: 1000,
-		hand_started: 500,
-		hand_finished: {
-			immediate: true,
-			delay: 1000
-		}
+		hand_started: 2000,
+		hand_finished: 0
 	};
 
 	// Message handler. Channel is first element of the array, payload is the second.

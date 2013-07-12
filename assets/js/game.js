@@ -177,7 +177,7 @@
 					us.setStatusMsg({
 						message: winstr
 					})
-				}, 1000]);
+				}, 3000]);
 			});
 
 			events.push([function() {
