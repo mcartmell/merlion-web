@@ -158,7 +158,7 @@
 			var events = []
 			_.each(data.winners, function(winner) {
 				var winp = us.playerList.at(winner[0]);
-				winstr = winp.get('name') + ' wins ' + '$' + winner[1];
+				winstr = winp.get('name') + ' wins ' + '$' + winner[1] + ' with ' + winner[2].join('') + ' (' + winner[3] + ')';
 				// flash winner
 				events.push([function() {
 					us.setStatusMsg({
