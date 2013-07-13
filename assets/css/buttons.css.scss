@@ -42,9 +42,29 @@ $green: #2ecc71;
 	}
 }
 
+@mixin simple_button($bg) {
+  background: $bg;
+  $color: black;
+  border-bottom: .2em solid darken($bg, 15);
+  position: relative;
+  @if lightness($bg) > 68% {
+    $color: desaturate(darken($bg, 35), 70);
+  }
+  @else {
+    $color: lighten($bg, 35);
+  }
+	color: $color;
+	box-shadow: none;
+	&:hover {
+		cursor: default;
+	}
+}
+
 @mixin button($bg, $icon:none, $iconPosition: right, $rounded: false){
   background: $bg;
   $color: black;
+  border-bottom: .2em solid darken($bg, 15);
+  position: relative;
   @each $thing in $icons{
     @if nth($thing, 1) == $icon {
       @if $iconPosition == right {  
@@ -81,14 +101,13 @@ $green: #2ecc71;
   }
 
   color: $color;
+
   &:hover, &:focus {
     box-shadow: 0 0 0 5px lighten($bg, 20);
   }
   @if $rounded == true {
 		border-radius: .7em;
 	}
-  border-bottom: .2em solid darken($bg, 15);
-  position: relative;
 }
 
 .button-fold { @include button($red, 'stop', left)   ;}

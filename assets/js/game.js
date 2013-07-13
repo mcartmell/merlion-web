@@ -45,19 +45,35 @@
 		setListeners: function() {
 			this.listenTo(this.model, 'change:cards', this.render);
 			this.listenTo(this.model, 'change:hand_type', this.render);
+			this.listenTo(Merlion.game.board, 'change:current_player', this.ourTurn);
 		},
 		render: function() {
 			this.$el.html(this.template(this.model.attrs()));
 			return this;
 		},
+		doAction: function(action) {
+			if (!this.model.toAct()) {
+				return;
+			}
+			Merlion.send(action + ' ' + Merlion.game.board.get('table_id'));
+			this.$el.addClass('not-acting');
+		},
 		doFold: function() {
-			Merlion.send('fold ' + Merlion.game.board.get('table_id'));
+			this.doAction('fold');
 		},
 		doCall: function() {
-			Merlion.send('call ' + Merlion.game.board.get('table_id'));
+			this.doAction('call');
 		},
 		doRaise: function() {
-			Merlion.send('raise ' + Merlion.game.board.get('table_id'));
+			this.doAction('raise');
+		},
+		ourTurn: function() {
+			if (this.model.toAct()) {
+				this.$el.removeClass('not-acting');
+			}
+			else {
+				this.$el.addClass('not-acting');
+			}
 		}
 	});
 
