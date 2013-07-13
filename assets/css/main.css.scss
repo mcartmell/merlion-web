@@ -99,7 +99,6 @@ a {
 	
 	#player-list {
 		.left {
-			width:  30%;
 			.stack {
 				font-size: 1.2em;
 			}
@@ -116,17 +115,19 @@ a {
 		div.container {
 			height: $container-height;
 		}
-		div.left {
+		.left {
 			float: left;
-			width: 15%;
+			width: 7em;
 		}
 		.dealer-button {
 			float: left;
-			width: 10%;
+			width: 2.8em;
 		}
 		.hole-cards {
 			float: left;
-			width: 10%;
+			font-size: 1em;
+			height: 3em;
+			width: 6em;
 			visibility: hidden;
 		}
 		&.showdown .hole-cards {
@@ -134,11 +135,7 @@ a {
 		}
 		.last-action-type {
 			float: left;
-			width: 10%;
-		}
-		div.right {
-			float: right;
-			width: 50%;
+			width: 4em;
 		}
 		.dealer-button, .right, .last-action-type {
 			line-height: 2.6em;
@@ -153,7 +150,6 @@ a {
 		.last-action .action{
 				border-radius: 40px;
 				padding: 8px;
-				margin-right: 1em;
 		}
 		.last-action .put_in {
 			border-radius: 40px;
