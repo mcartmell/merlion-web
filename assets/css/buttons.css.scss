@@ -42,24 +42,6 @@ $green: #2ecc71;
 	}
 }
 
-@mixin simple_button($bg) {
-  background: $bg;
-  $color: black;
-  border-bottom: .2em solid darken($bg, 15);
-  position: relative;
-  @if lightness($bg) > 68% {
-    $color: desaturate(darken($bg, 35), 70);
-  }
-  @else {
-    $color: lighten($bg, 35);
-  }
-	color: $color;
-	box-shadow: none;
-	&:hover {
-		cursor: default;
-	}
-}
-
 @mixin button($bg, $icon:none, $iconPosition: right, $rounded: false){
   background: $bg;
   $color: black;

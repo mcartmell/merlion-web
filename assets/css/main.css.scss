@@ -1,5 +1,4 @@
 @font-face{font-family:Chunk;src:asset-url('chunk.woff', font);font-weight:400}
-@import 'buttons.css.scss';
 
 $call: rgb(255, 153, 0);
 $check: rgb(241, 219, 57);
@@ -7,6 +6,24 @@ $bet: rgb(241, 57, 57);
 $raise: rgb(241, 57, 57);
 $dealer-button: rgb(0, 82, 185);
 $background: rgb(240,240,250);
+
+@mixin simple_button($bg) {
+  background: $bg;
+  $color: black;
+  border-bottom: .2em solid darken($bg, 15);
+  position: relative;
+  @if lightness($bg) > 68% {
+    $color: desaturate(darken($bg, 35), 70);
+  }
+  @else {
+    $color: lighten($bg, 35);
+  }
+	color: $color;
+	box-shadow: none;
+	&:hover {
+		cursor: default;
+	}
+}
 
 h1 {
 	font-family: 'Chunk';
