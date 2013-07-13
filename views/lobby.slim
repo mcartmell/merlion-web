@@ -8,13 +8,18 @@ html
 				Merlion.initLobby();
 			});
 		script type="text/template" id="lobby-template"
-			| <ul>
+			| <table>
 				<% _.each(games, function(game) { %>
-					<li>
-						<a href="/game/<%= game.id %>"><%= game.name %></a> (<%= game.players %>/<%= game.max_players %>)
-					</li>
+					<tr>
+						<td><a href="/game/<%= game.id %>"><%= game.name %></a></td>
+						<td>(<%= game.players %>/<%= game.max_players %>)</td>
+						<td><% _.each(game.player_names, function(name) { %>
+									<%= name %><br />
+								<% }) %>
+						</td>
+					</tr>
 				<% }) %>
-				</ul>
+				</table>
 	body.lobby
 			h1 Lobby
 			div id="lobby"

@@ -8,6 +8,7 @@
 			this.on('list', this.gotList);
 		},
 		gotList: function(data) {
+			console.log(data);
 			this.set({ 'games': data });
 		}
 	});

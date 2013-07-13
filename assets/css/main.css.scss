@@ -27,7 +27,7 @@ $background: rgb(240,240,250);
 
 h1 {
 	font-family: 'Chunk';
-	font-size: 4em;
+	font-size: 3.5em;
 	margin-bottom: 0;
 	font-weight: normal;
 }
@@ -74,6 +74,10 @@ a {
 		}
 		.hero-info {
 			overflow:hidden;
+			.hand-type {
+				font-size: 1.4em;
+				font-weight: bold;
+			}
 		}
 		.action-bar {
 			clear: both;
@@ -212,5 +216,19 @@ a {
 	.pot {
 		position: relative;
 		left: 20%;
+	}
+}
+
+#lobby {
+	table {
+		margin-left: 10%;
+		margin-top: 4rem;
+		font-size: 1.2rem;
+		line-height: 1.6rem;
+		td {
+			vertical-align: top;
+			padding-bottom: 2rem;
+			padding-right: 1em;
+		}
 	}
 }
