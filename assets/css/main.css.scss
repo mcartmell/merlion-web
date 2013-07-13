@@ -1,14 +1,24 @@
 @font-face{font-family:Chunk;src:url(/assets/chunk.woff);font-weight:400}
+
+$call: rgb(255, 153, 0);
+$check: rgb(241, 219, 57);
+$bet: rgb(241, 57, 57);
+$raise: rgb(241, 57, 57);
+$dealer-button: rgb(0, 82, 185);
+
+
 h1 {
 	font-family: 'Chunk';
-	font-size: 5em;
+	font-size: 4em;
 	margin-bottom: 0;
 }
+
 body {
 	background: rgb(240,240,250);
 	font-family: 'Lato';
 	font-size: 1.2em;
 }
+
 ul {
 	list-style: none;
 	list-style-type: none;
@@ -21,7 +31,7 @@ li {
 		margin: 0;
 	}
 	padding: 0.4em;
-	padding-left: 20%;
+	padding-left: 10%;
 }
 a {
 	text-decoration: none;
@@ -31,14 +41,34 @@ a {
 	#board {
 		background-color: rgb(192, 255, 192);
 		.status-msg {
-			min-height: 3em;
+			font-size: 1.6em;
+			font-weight: bold;
+			height: 3rem;
+			text-shadow: 2px 2px 5px #999;
 		}
 	}
 	#hero {
+		overflow: hidden;
+		.hero-cards{
+			width: 160px;
+			float: left;
+		}
+		.hero-info {
+			overflow:hidden;
+		}
+		.action-bar {
+			clear: both;
+			span {
+				margin-right: 0.5rem;
+			}
+		}
 		background-color: rgb(255, 217, 148);
 	}
 	
 	#player-list {
+		li {
+			margin-bottom: 2px;
+		}
 		.left {
 			width:  30%;
 			.stack {
@@ -53,27 +83,62 @@ a {
 			visibility: visible;
 			color: red;
 		}
-		div.left, div.right {
-			display: inline-block;
+		$container-height: 3em;
+		div.container {
+			height: $container-height;
 		}
-		span.put_in {
-			width: 20%;
-			background-color: #ccf;
-			color: #fff;
-			text-align: center;
+		div.left {
+			float: left;
+			width: 15%;
+		}
+		.dealer-button {
+			float: left;
+			width: 15%;
+		}
+		.last-action-type {
+			float: left;
+			width: 10%;
+		}
+		div.right {
+			float: right;
+			width: 60%;
+		}
+		.dealer-button, .right, .last-action-type {
+			line-height: 2.6em;
+		}
+		.dealer-button span.is-dealer {
+				border-radius: 40px;
+				background-color: $dealer-button;
+				color: #fff;
+				border: 3px dotted #ccc;
+				padding: 0.35em 0.7em 0.35em 0.75em;
+		}
+		.last-action .action{
+				border-radius: 40px;
+				padding: 8px;
+				margin-right: 1em;
+		}
+		.last-action .put_in {
+			border-radius: 40px;
+			padding: 0.35em 0.7em 0.35em 0.75em;
+			border: 3px dotted #000;
 		}
 		.last-action {
-				border-radius: 12px;
-				padding: 6px;
-		}
-			.last-action.call {
-				background-color: orange;
-			}
-			.last-action.bet, .last-action.raise {
-				background-color: red;
-			}
-		span.last-action {
-			margin-left: 2em;
+				&.call {
+					.action, .put_in {
+						background-color: $call;
+					}
+				}
+				&.check {
+					.action, .put_in {
+						background-color: $check;
+					}
+				}
+				&.bet, &.raise {
+					.action, .put_in {
+						background-color: $bet;
+					}
+				}
 		}
 		li.folded {
 			background-color: #ccc;
@@ -86,7 +151,22 @@ a {
 	.board-cards, .hero-cards {
 		line-height: 0;
 		font-size: 0;
-		min-height: 120px;
+		img {
+			margin-right: 0.2rem;
+		}
+	}
+
+	.board-cards {
+		height: 6.4rem;
+		img {
+			height: 6rem;
+		}
+	}
+	.hero-cards {
+		height: 5.5rem;
+		img {
+			height: 5rem;
+		}
 	}
 	.pot {
 		position: relative;

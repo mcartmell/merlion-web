@@ -150,14 +150,15 @@
 			this.setPlayerSeat(data.hero_seat);
 			this.board.trigger('set_dealer');
 		},
+		playerMoved: function(data) {
+			console.log(data);
+			// set last player action
+			var lp = data.last_player_to_act.seat;
+			this.playerList.at(lp).set(data.last_player_to_act);
+		},
 		stateChanged: function(data) {
-			var cp = data.current_player;
-			var lp = data.last_player.seat;
-		// update board
-			this.board.setState(data);
-			this.playerList.at(lp).set(data.last_player);
-
 			// flash current player
+			this.board.setState(data);
 		},
 		stageChanged: function(data) {
 			this.board.setState(data);
@@ -196,6 +197,7 @@
 			dispatch.on('hand_finished', this.handFinished, this);
 			dispatch.on('state_changed', this.stateChanged, this);
 			dispatch.on('stage_changed', this.stageChanged, this);
+			dispatch.on('player_moved', this.playerMoved, this);
 			dispatch.on('hole_cards', this.holeCards, this);
 			dispatch.on('status_msg', this.setStatusMsg, this);
 		},

@@ -8,25 +8,9 @@ var Merlion = (function($) {
 		this.game.trigger('join', data);
 	};
 
-	var handStarted = function(data) {
-		this.game.trigger('hand_started', data);
-	};
-
-	var handFinished = function(data) {
-		this.game.trigger('hand_finished', data);
-	};
-
-	var stateChanged = function(data) {
-		this.game.trigger('state_changed', data);
-	}
-
-	var stageChanged = function(data) {
-		this.game.trigger('stage_changed', data);
-	}
-
 	// specify UI delays for certain types of event
 	var chanDelays = {
-		state_changed: 1000,
+		player_moved: 1000,
 		hand_started: 2000,
 		hand_finished: 0
 	};
@@ -126,11 +110,6 @@ var Merlion = (function($) {
 
 	var initGame = function(opts) {
 		this.game = new Game();
-
-		dispatch.on('hand_started', handStarted, this);
-		dispatch.on('state_changed', stateChanged, this);
-		dispatch.on('stage_changed', stageChanged, this);
-		dispatch.on('hand_finished', handFinished, this);
 
 		ws.onopen = _.bind(function() {
 			this.game.joinGame(opts.game_id);
