@@ -32,14 +32,13 @@
 		},
 		initialize: function() {
 			this.template = _.template($('#hero-template').html());
-			// set up listeners
-			this.listenTo(this.model, 'change', this.render);
-			this.listenTo(Merlion.game.board, 'change', this.render);
-			this.render();
+		},
+		setListeners: function() {
+			this.listenTo(this.model, 'change:cards', this.render);
+			this.listenTo(this.model, 'change:hand_type', this.render);
 		},
 		render: function() {
 			this.$el.html(this.template(this.model.attrs()));
-
 			return this;
 		},
 		doFold: function() {
@@ -62,12 +61,19 @@
 		},
 		defaults: {
 			cards: '',
-			folded: false
-		},
-		initialize: function() {
+			folded: false,
+			hand_strength: '',
+			hand_type: ''
 		},
 		updateAll: function() {
-
+		},
+		setHoleCards: function(data) {
+			data.hand_strength = '';
+			data.hand_type = '';
+			this.set(data);
+		},
+		setHandInfo: function(data) {
+			this.set(data);
 		},
 		attrs: function() {
 			var attrs = _.clone(this.attributes);
@@ -129,12 +135,14 @@
 			Merlion.send('join ' + id);
 		},
 		setPlayerSeat: function(seat) {
-			var hero = this.playerList.at(seat);
+			this.hero = this.playerList.at(seat);
 			if (this.heroView) {
-				this.heroView.model = hero
+				this.heroView.model = this.hero;
+				this.heroView.setListeners();
 			}
 			else {
-				this.heroView = new HeroView({ el: $('#hero'), model: hero });
+				this.heroView = new HeroView({ el: $('#hero'), model: this.hero });
+				this.heroView.setListeners();
 			}
 		},
 		gameJoined: function(data) {
@@ -142,16 +150,16 @@
 			this.setPlayers(data.players);
 		},
 		holeCards: function(data) {
-			this.heroView.model.set(data);
+			this.heroView.model.setHoleCards(data);
 		},
 		handStarted: function(data) {
 			this.board.setState(data);
 			this.setPlayers(data.players);
 			this.setPlayerSeat(data.hero_seat);
 			this.board.trigger('set_dealer');
+			this.hero.set({ cards: []});
 		},
 		playerMoved: function(data) {
-			console.log(data);
 			// set last player action
 			var lp = data.last_player_to_act.seat;
 			this.playerList.at(lp).set(data.last_player_to_act);
@@ -163,6 +171,10 @@
 		stageChanged: function(data) {
 			this.board.setState(data);
 			// reset players
+			this.hero.setHandInfo({
+				hand_strength: data.hand_strength,
+				hand_type: data.hand_type
+			});
 			this.playerList.each(function(p) {
 				p.set({'last_action':  '', put_in: 0})
 			});

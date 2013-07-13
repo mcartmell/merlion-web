@@ -11,7 +11,7 @@ var Merlion = (function($) {
 	// specify UI delays for certain types of event
 	var chanDelays = {
 		player_moved: 1000,
-		hand_started: 2000,
+		hand_started: 1000,
 		hand_finished: 0
 	};
 

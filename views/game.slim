@@ -7,7 +7,7 @@ html
 				<div class="container">
 					<div class="left">
 						<div class="name"><%= name %></div>
-						<div class="stack"><%= stack %></div> 
+						<div class="stack">$<%= stack %></div> 
 					</div>
 					<div class="dealer-button"><span class="is-dealer">d</span></div>
 					<div class="last-action-type">
@@ -43,6 +43,10 @@ html
 					<% }) %>
 				</div>
 				<div class="hero-info">
+					<span class="hand-type"><%= hand_type %></span><br />
+					<span class="hand-strength"><% if (hand_strength) { %>
+					Strength: <%= hand_strength %>%</span>
+					<% } %>
 				</div>
 				<div class="action-bar">
 					<span id="fold" class="button-fold" href="#">fold</span>
