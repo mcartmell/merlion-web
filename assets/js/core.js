@@ -39,6 +39,20 @@ var Merlion = (function($) {
 		delayEvents([[e, delay]], immediate);
 	}
 
+	var userName = function(name) {
+		if (name) {
+			localStorage.name = name;
+		}
+		else {
+			if (localStorage.name) {
+				return localStorage.name;
+			}
+			else {
+				return localStorage.name = prompt("Please enter your name");
+			}
+		}
+	}
+
 	var delayEvents = function(events, immediate) {
 		x = x + 1;
 		var our_id = x;
@@ -129,6 +143,7 @@ var Merlion = (function($) {
 		'ws': getWS,
 		'game': getGame,
 		'delayEvent': delayEvent,
-		'delayEvents': delayEvents
+		'delayEvents': delayEvents,
+		'userName': userName
 	}
 })(jQuery);

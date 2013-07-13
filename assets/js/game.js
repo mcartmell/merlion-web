@@ -141,7 +141,7 @@
 
 	Game = Backbone.Model.extend({
 		joinGame: function(id) {
-			Merlion.send('join ' + id);
+			Merlion.send('join ' + id + ' ' + Merlion.userName());
 		},
 		setPlayerSeat: function(seat) {
 			this.hero = this.playerList.at(seat);
