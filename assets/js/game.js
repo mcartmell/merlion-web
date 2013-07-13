@@ -4,8 +4,17 @@
 		defaults: {
 			'status': ''
 		},
+		intialize: function() {
+		},
 		setState: function(data) {
 			this.set(data);
+		},
+		// set the header, but only once
+		setName: function() {
+			if (this.get('name')) {
+				$('#game-name').html(this.get('name'));
+				this.off('change:name');
+			}
 		}
 	});
 
@@ -146,8 +155,7 @@
 			}
 		},
 		gameJoined: function(data) {
-			this.board.setState(data);
-			this.setPlayers(data.players);
+			// do nothing
 		},
 		holeCards: function(data) {
 			this.heroView.model.setHoleCards(data);
@@ -212,6 +220,7 @@
 			dispatch.on('player_moved', this.playerMoved, this);
 			dispatch.on('hole_cards', this.holeCards, this);
 			dispatch.on('status_msg', this.setStatusMsg, this);
+			this.board.on('change:name', this.board.setName);
 		},
 		updatePlayers: function(players) {
 			var us = this;
