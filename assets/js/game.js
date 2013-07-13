@@ -212,7 +212,7 @@
 					us.setStatusMsg({
 						message: winstr
 					})
-				}, 3000]);
+				}, 4000]);
 			});
 			events.push([function() {
 				Merlion.game.board.set({ 'status': ''})
