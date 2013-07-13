@@ -2,7 +2,8 @@
 
 	Board = Backbone.Model.extend({
 		defaults: {
-			'status': ''
+			'status': '',
+			blinds: false
 		},
 		intialize: function() {
 		},
@@ -46,6 +47,7 @@
 			this.listenTo(this.model, 'change:cards', this.render);
 			this.listenTo(this.model, 'change:hand_type', this.render);
 			this.listenTo(Merlion.game.board, 'change:current_player', this.ourTurn);
+			this.listenTo(Merlion.game.board, 'change:stage', this.ourTurn);
 		},
 		render: function() {
 			this.$el.html(this.template(this.model.attrs()));
@@ -68,7 +70,7 @@
 			this.doAction('raise');
 		},
 		ourTurn: function() {
-			if (this.model.toAct()) {
+			if (this.model.toAct() && (Merlion.game.board.get('stage') != 'preflop' || Merlion.game.board.get('blinds') == true)) {
 				this.$el.removeClass('not-acting');
 			}
 			else {
