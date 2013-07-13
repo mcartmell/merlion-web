@@ -69,7 +69,7 @@
 			return (this.get('seat') == Merlion.game.board.get('dealer'));
 		},
 		defaults: {
-			cards: '',
+			cards: ['B', 'B'],
 			folded: false,
 			hand_strength: '',
 			hand_type: ''
@@ -161,11 +161,17 @@
 			this.heroView.model.setHoleCards(data);
 		},
 		handStarted: function(data) {
+			// reset the pot
 			this.board.setState(data);
+			// set player details
 			this.setPlayers(data.players);
 			this.setPlayerSeat(data.hero_seat);
+			// give the dealer button
 			this.board.trigger('set_dealer');
+			// reset hero cards
 			this.hero.set({ cards: []});
+			// no longer revealing cards
+			$('#player-list').removeClass('showdown');
 		},
 		playerMoved: function(data) {
 			// set last player action
@@ -189,6 +195,14 @@
 		},
 		handFinished: function(data) {
 			var us = this;
+
+			// show hole cards
+			_.each(data.hole_cards, function(p,i) {
+				us.playerList.at(i).set({ cards: p });
+			});
+			$('#player-list').addClass('showdown');
+
+			// update status message(s)
 			var events = []
 			_.each(data.winners, function(winner) {
 				var winp = us.playerList.at(winner[0]);
@@ -200,7 +214,6 @@
 					})
 				}, 3000]);
 			});
-
 			events.push([function() {
 				Merlion.game.board.set({ 'status': ''})
 			}, 0]);

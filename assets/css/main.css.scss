@@ -11,6 +11,7 @@ h1 {
 	font-family: 'Chunk';
 	font-size: 4em;
 	margin-bottom: 0;
+	font-weight: normal;
 }
 
 body {
@@ -90,7 +91,15 @@ a {
 		}
 		.dealer-button {
 			float: left;
-			width: 15%;
+			width: 10%;
+		}
+		.hole-cards {
+			float: left;
+			width: 10%;
+			visibility: hidden;
+		}
+		&.showdown .hole-cards {
+			visibility: visible;
 		}
 		.last-action-type {
 			float: left;
@@ -98,7 +107,7 @@ a {
 		}
 		div.right {
 			float: right;
-			width: 60%;
+			width: 50%;
 		}
 		.dealer-button, .right, .last-action-type {
 			line-height: 2.6em;
@@ -170,6 +179,11 @@ a {
 		height: 5.5rem;
 		img {
 			height: 5rem;
+		}
+	}
+	.hole-cards {
+		img {
+			height: 3em;
 		}
 	}
 	.pot {

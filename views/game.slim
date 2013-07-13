@@ -10,6 +10,11 @@ html
 						<div class="stack">$<%= stack %></div> 
 					</div>
 					<div class="dealer-button"><span class="is-dealer">d</span></div>
+					<div class="hole-cards">
+						<% _.each(cards, function(card) { %>
+							<img src="/assets/cards/<%= card %>.gif">
+						<% }) %>
+					</div>
 					<div class="last-action-type">
 						<span class="last-action <%= last_action %>">
 							<span class="action"><%= last_action %></span>
