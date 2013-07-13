@@ -6,9 +6,8 @@ A HTML5/Backbone.js Poker client
 
 # TODO
 
+* Disable buttons when it's not the player's turn
 * Styling, lots.
-* A 'showdown' event declaring the winner
-* Show hands and winning hand type at showdown
-* Allow players to quit properly
-* Show hand type for hero
+* Show hands at showdown
 * Change click events to delayEvents
+* Allow players to join with different names
