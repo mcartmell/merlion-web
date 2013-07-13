@@ -5,7 +5,7 @@ $check: rgb(241, 219, 57);
 $bet: rgb(241, 57, 57);
 $raise: rgb(241, 57, 57);
 $dealer-button: rgb(0, 82, 185);
-
+$background: rgb(240,240,250);
 
 h1 {
 	font-family: 'Chunk';
@@ -14,7 +14,7 @@ h1 {
 }
 
 body {
-	background: rgb(240,240,250);
+	background: $background;
 	font-family: 'Lato';
 	font-size: 1.2em;
 }
@@ -66,9 +66,6 @@ a {
 	}
 	
 	#player-list {
-		li {
-			margin-bottom: 2px;
-		}
 		.left {
 			width:  30%;
 			.stack {
@@ -140,11 +137,18 @@ a {
 					}
 				}
 		}
+		li {
+			border-left: 12px solid $background;
+		}
 		li.folded {
+			border-left: 12px solid #ccc;
 			background-color: #ccc;
 		}
 		li.acting {
-			border: 1px solid red;
+			.name {
+				font-weight: bold;
+			}
+			border-left: 12px solid red;
 		}
 	}
 
