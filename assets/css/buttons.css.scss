@@ -1,14 +1,9 @@
+/* Original code from http://codepen.io/awesomephant/pen/ALrsb */
 a{ margin: 1em; }
 @import url(http://fonts.googleapis.com/css?family=Lato);
 @import url(http://weloveiconfonts.com/api/?family=entypo);
 
-$icons: ('save' '\1F4BE'),
-        ('delete' '\12as'),
-        ('fb' '\F30E'),
-        ('twitter' '\F309'),
-        ('bolt' '\26A1'),
-        ('danger' '\26A0'),
-        ('tick' '\2713'),
+$icons: 
 				('stop', '\25A0'),
 				('play', '\25B6'),
 				('ff', '\23E9');
@@ -20,8 +15,6 @@ $green: #2ecc71;
 
 [class*=button-]{
   display: inline-block;
-  background: #BADA55;
-  color: black;
   font:{
     family: sans-serif;
     weight: 800;
