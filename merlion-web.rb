@@ -1,11 +1,9 @@
 require 'sinatra/base'
-require 'sinatra/synchrony'
 require 'sinatra/asset_pipeline'
 require 'slim'
 require 'sinatra/config_file'
 
 class MerlionWeb < Sinatra::Base
-	register Sinatra::Synchrony
 	register Sinatra::AssetPipeline
 	register Sinatra::ConfigFile
 
