@@ -1,10 +1,13 @@
 # merlion-web
 
-(work in progress)
+merlion-web is a HTML5/Backbone.js Poker client for [Merlion](https://github.com/mcartmell/merlion).
 
-A HTML5/Backbone.js Poker client
+It uses:
 
-# TODO
+* Backbone.js & Underscore.js
+* WebSockets
+* SASS
+* Sinatra (sort of)
+* Slim (sort of)
 
-* Styling, lots.
-* Change click events to delayEvents
+You can see it in action at http://poker.mikec.me.
